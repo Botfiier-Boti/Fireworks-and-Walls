@@ -1,5 +1,6 @@
 package com.botifier.timewaster.util;
 
+
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
@@ -10,14 +11,17 @@ public class TileMap implements TileBasedMap {
 	int height = 0;
 	
 	public TileMap(int width, int height) {
-		this.width = width;
-		this.height = height;
+		this.width = width/16;
+		this.height = height/16;
 	}
 
 	@Override
 	public boolean blocked(PathFindingContext arg0, int tx, int ty) {
-		if (MainGame.s[ty].charAt(tx) == '#') {
-			return true;
+		if (tx > -1 && ty >-1 && ty < MainGame.mm.tiles.length && tx < MainGame.mm.tiles[ty].length ) {
+			char c = MainGame.mm.tiles[ty][tx];
+			if ( c == ' ' || c == 0 ) {
+				return true;
+			}
 		}
 		return false;
 	}
