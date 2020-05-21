@@ -3,14 +3,15 @@ package com.botifier.timewaster.entity;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.pathfinding.Path;
 
 import com.botifier.timewaster.util.Entity;
-import com.botifier.timewaster.util.EntityController;
+import com.botifier.timewaster.util.movements.EntityController;
 
 public class Bob extends Entity {
 	public Path p;
-	public boolean mod = true;;
+	public boolean mod = true;
 	org.newdawn.slick.geom.Path e;
 	
 	int pos = 0;
@@ -35,7 +36,7 @@ public class Bob extends Entity {
 	}
 	int m = 16;
 	@Override
-	public void update(int delta) {
+	public void update(int delta) throws SlickException {
 		super.update(delta);
 		if (p != null) {
 			if (mod) {

@@ -1,7 +1,9 @@
 package com.botifier.timewaster.util;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 public class Math2 {
@@ -25,6 +27,7 @@ public class Math2 {
 		return Math.min(x,y) == x ? true : false;
 	}
 	
+	
 	public static float round(float f, int dec) {
 		String d = "#";
 		if (dec > 0) {
@@ -35,5 +38,10 @@ public class Math2 {
 		}
 		DecimalFormat df = new DecimalFormat(d);
 		return Float.valueOf(df.format(f));
+	}
+	
+	public static ArrayList<Vector2f> getIntersected(Shape s1, Shape s2) {
+	
+		return null;
 	}
 }

@@ -12,10 +12,11 @@ import com.botifier.timewaster.main.MainGame;
 import com.botifier.timewaster.util.Entity;
 import com.botifier.timewaster.util.Math2;
 import com.botifier.timewaster.util.Team;
-import com.botifier.timewaster.util.bulletpatterns.*;
+import com.botifier.timewaster.util.bulletpatterns.BulletPattern;
+import com.botifier.timewaster.util.movements.ExternalPlayerControl;
 import com.botifier.timewaster.util.movements.LocalPlayerControl;
 
-public class Player extends Entity {
+public class ExternalPlayer extends Entity {
 	Sound s;
 	public boolean build = false;
 	public int dex = 50;
@@ -24,34 +25,20 @@ public class Player extends Entity {
 	public long invulPeriod = 0;
 	BulletPattern p;
 	
-	public Player(String name, float x, float y) throws SlickException {
-		super(name, MainGame.getImage("debugman"), new LocalPlayerControl(x, y, 50f));
-		s = MainGame.getSound("bladeswing");
+	public ExternalPlayer(String name, float x, float y) throws SlickException {
+		super(name, MainGame.getImage("debugman"), new ExternalPlayerControl(x, y, 50f));
+		s = new Sound("bladeSwing.wav");
 		getController().setCollision(true);
 		team = Team.ALLY;
 		overrideMove = true;
 		def = 20;
 		vit = 75;
-		spawncap = 3;
-		//p = new BeeHivePattern();
 	}
 	
 	public void update(GameContainer gc, int delta) throws SlickException {
 		Input i = gc.getInput();
 		if (health <= 0) {
 			active = false;
-		}
-		if (spawns.size() > 0 && spawns.size() > spawncap) {
-			spawns.get(0).destroy = true;
-			spawns.remove(0);
-			MainGame.mm.e.remove(spawns.get(0));
-		}
-		for (int w = spawns.size()-1; w > -1; w--) {
-			Entity e = spawns.get(w);
-			if (!MainGame.getEntities().contains(e) && e.destroy != true)
-				MainGame.getEntities().add(e);
-			if (e.team != this.team)
-				e.team = this.team;
 		}
 		if (this.active) {
 			SPS = 1.5f + 6.5f*(dex/75f);
@@ -76,7 +63,7 @@ public class Player extends Entity {
 					if (p == null) {
 						b.add(new Bullet("Bob", getController().getLoc().x, getController().getLoc().y, 100, angle, 25, 45, 90,this));
 					} else {
-						p.fire(this, mouse.x, mouse.y, angle);
+						p.fire(this, getController().getLoc().x, getController().getLoc().y, angle);
 					}
 					if ((angle < Math.PI && angle > Math.PI/2) || (angle > -Math.PI && angle < -Math.PI/2)) {
 						dir = false;
@@ -111,6 +98,6 @@ public class Player extends Entity {
 
 	@Override
 	public LocalPlayerControl getController() {
-		return (LocalPlayerControl)super.getController();
+		return (LocalPlayerControl)getController();
 	}
 }
